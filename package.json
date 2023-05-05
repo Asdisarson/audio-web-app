@@ -1,0 +1,24 @@
+{
+  "name": "audio-web-app",
+  "version": "1.0.0",
+  "description": "This project is a web application that preloads an audio file, displays a progress bar, and connects to a server via Socket.io. The server waits for console input to start audio playback simultaneously for all connected clients. The application's design is inspired by the Game Boy Color retro theme.",
+  "main": "server.js",
+  "scripts": {
+    "test": "node-dev server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Asdisarson/audio-web-app.git"
+  },
+  "author": "Asdisarson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Asdisarson/audio-web-app/issues"
+  },
+  "homepage": "https://github.com/Asdisarson/audio-web-app#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  }
+}
