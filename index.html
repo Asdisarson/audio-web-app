@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Preloading and Synchronization</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="container">
+    <div id="preloader">
+      <div id="progressBar" class="gameboy-border">
+        <div id="progress" class="gameboy-progress"></div>
+      </div>
+      <div id="downloadStatus" class="gameboy-text">Downloading...</div>
+    </div>
+    <button id="connect" class="gameboy-button" style="display: none;">Connect</button>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
