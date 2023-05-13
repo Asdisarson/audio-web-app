@@ -9,34 +9,37 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 app.use(express.static('./'));
-
+const connectedUsers = {};
 let clientsReady = 0;
 
 io.on('connection', (socket) => {
+  socket.on('adminConnected', () => {
+    console.log('Admin connected');
+    socket.emit('updateUserList', connectedUsers);
+  });
+
   console.log('A user connected');
+  socket.on('startPlayback', () => {
+    console.log('Admin started playback');
+    io.emit('play');
+  });
 
-  socket.on('clientConnected', () => {
-    clientsReady++;
-    console.log(`Client connected and ready to play audio. Total clients ready: ${clientsReady}`);
-
-    if (clientsReady === 1) {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-
-      rl.question("Press 'Enter' to start playback for all clients: ", () => {
-        io.emit('play');
-        console.log('Playback started for all clients.');
-        rl.close();
-      });
-    }
+  socket.on('clientConnected', (data) => {
+    const { userId, latency } = data;
+    connectedUsers[userId] = { latency };
+    console.log(`Client connected and ready to play audio. User ID: ${userId}`);
+    io.emit('updateUserList', connectedUsers);
   });
 
   socket.on('disconnect', () => {
+    if (connectedUsers.hasOwnProperty(socket.id)) {
+      delete connectedUsers[socket.id];
+      io.emit('updateUserList', connectedUsers);
+    }
     console.log('A user disconnected');
-    clientsReady--;
   });
+
+
 });
 function getLocalIP() {
   const interfaces = os.networkInterfaces();
