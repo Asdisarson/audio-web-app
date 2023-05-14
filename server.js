@@ -10,33 +10,68 @@ const io = socketIO(server);
 
 app.use(express.static('./'));
 
-let clientsReady = 0;
-
+let selectableUsers = {};
+let group = 0;
+let admin = "";
 io.on('connection', (socket) => {
-  console.log('A user connected');
 
-  socket.on('clientConnected', () => {
-    clientsReady++;
-    console.log(`Client connected and ready to play audio. Total clients ready: ${clientsReady}`);
+  socket.on('reset',() => {
+    selectableUsers = {};
+    socket.broadcast.emit('refresh');
+  })
 
-    if (clientsReady === 1) {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+  socket.on('isAdmin',() => {
+    admin = socket.id;
+    console.log("Admin: " + admin);
+  })
 
-      rl.question("Press 'Enter' to start playback for all clients: ", () => {
-        io.emit('play');
-        console.log('Playback started for all clients.');
-        rl.close();
-      });
+  console.log('A user connected: ' + socket.id);
+
+    socket.on('clientConnected', () => {
+      console.log('Connected user is Ready: ' + socket.id);
+
+      selectableUsers[socket.id] = socket;
+    });
+  socket.on('userControlMute',(data) => {
+    io.to(admin).emit('mute', data);
+  })
+
+  socket.on('userControl',(data) => {
+    io.to(admin).emit('manipulate', data);
+  })
+        socket.on('disconnect', () => {
+    console.log('A user disconnected: ' + socket.id);
+  });
+  socket.on('play', () => {
+    socket.broadcast.emit('play');
+
+    let intervalId;
+
+    function selectRandomUser() {
+      if (Object.keys(selectableUsers).length > 0) {
+        let socketIds = Object.keys(selectableUsers);
+        let randomSocketId = socketIds[Math.floor(Math.random() * socketIds.length)];
+        console.log('Selected: ' + randomSocketId);
+        io.to(randomSocketId).emit('selected');
+
+        // Remove selected user so they can't be selected again
+        //delete selectableUsers[randomSocketId];
+      } else {
+        // All users have been selected, so stop selecting
+        clearInterval(intervalId);
+      }
     }
+
+    // Select first user immediately
+    selectRandomUser();
+
+    // Schedule selection of next user every 15 seconds
+    intervalId = setInterval(selectRandomUser, 15000);
+  });
+  socket.on('checkConnection', () => {
+    socket.emit('connectionOK');
   });
 
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-    clientsReady--;
-  });
 });
 function getLocalIP() {
   const interfaces = os.networkInterfaces();

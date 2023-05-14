@@ -3,22 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audio Preloading and Synchronization</title>
+  <title>SyncPhony</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 </head>
 <body>
-  <div class="container">
-    <div id="preloader">
+
+  <div class="container" >
+    <div id="color">
+    <button id="red" value="0" class="gameboy-button" style="color:indianred;">Red</button>
+    <button id="blue" value="1" class="gameboy-button" style="color:lightskyblue;">Blue</button>
+    <button id="green" value="2" class="gameboy-button" style="color:greenyellow;">Green</button>
+    <button id="yellow" value="3" class="gameboy-button" style="color:yellow;">Yellow</button>
+    <button id="purple" value="4" class="gameboy-button" style="color:mediumpurple;">Purple</button>
+  </div>
+    <div id="preloader" style="display: none;">
       <div id="progressBar" class="gameboy-border">
         <div id="progress" class="gameboy-progress"></div>
       </div>
       <div id="downloadStatus" class="gameboy-text">Downloading...</div>
     </div>
     <button id="connect" class="gameboy-button" style="display: none;">Connect</button>
+    <div id="connection" class="gameboy-text" style="display: none;">Connected</div>
+    <div id="countdown" class="gameboy-text" style="display: none;">5</div>
+    <div id="circle"  style="display: none;">Click</div>
+    <button id="mute-button" class="gameboy-button" style="display: none;">Mute</button>
+  </div>
+  <div id="adminDashboard" style="display: none;">
+    <button id="adminPlay" class="gameboy-button" >Play</button>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://richtr.github.io/NoSleep.js/dist/NoSleep.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="app.js"></script>
