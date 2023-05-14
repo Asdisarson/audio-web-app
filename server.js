@@ -32,9 +32,7 @@ io.on('connection', (socket) => {
 
       selectableUsers[socket.id] = socket;
     });
-  socket.on('userControlMute',(data) => {
-    io.to(admin).emit('mute', data);
-  })
+
 
   socket.on('userControl',(data) => {
     io.to(admin).emit('manipulate', data);
