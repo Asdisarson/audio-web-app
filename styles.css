@@ -1,91 +1,126 @@
 body {
-  background-color: #000000;
-  font-family: 'Press Start 2P', cursive;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  margin: 0;
-  font-size: 125%;
+    background-color: #000000;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Changed from min-height: 90vh; */
+    margin: 0;
+    color: #ffffff; /* Add a general font color for the body */
+    font-size: 3vw; /* Changed from 125%; */
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 .container {
-  background-color: #000000;
-  border: 3px solid #8f8f8f;
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    background-color: #000000;
+    border: 3px solid #8f8f8f;
+    padding: 5vw; /* Increased padding */
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    max-width: 100%; /* Ensure it doesn't exceed the screen width */
+    max-height: 100%; /* Ensure it doesn't exceed the screen height */
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+
 .gameboy-border {
-  border: 3px solid #ffffff;
-  width: 100%;
-  height: 100%;
-  position: relative;
+    border: 3px solid #ffffff;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 .gameboy-progress {
-  width: 0%;
-  height: 100%;
-  background-color: #ffffff;
-  position: absolute;
+    width: 0%;
+    height: 100%;
+    background-color: #ffffff;
+    position: absolute;
 }
 
 .gameboy-text {
-  text-align: center;
-  margin-top: 15px;
-  color: #ffffff;
-  font-size: 150%;
-  animation: pulse 3s infinite;
+    text-align: center;
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 200%; /* Increased font size */
+    animation: pulse 3s infinite;
 }
 
 .gameboy-button {
-  display: block; margin:2px;
-  background-color: #212121;
-  border: 2px solid #989898;
-  color: #c9c9c9;
-  font-family: 'Press Start 2P', cursive;
-  padding: 20px 40px;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-size: 1.5em;
+    display: block;
+    margin: 0.5vw; /* Changed from 2px; */
+    background-color: #212121;
+    transition: background-color 0.3s ease; /* Added transition for smoother color change */
+    color: #ffffff; /* Changed font color to white for contrast */
+    border-color: #ffffff; /* Changed border color to white for contrast */
+    font-family: 'Press Start 2P', cursive;
+    padding: 2vw 4vw; /* Increased padding */
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 2em; /* Increased font size */
+}
+
+.gameboy-button:active {
+    background-color: #404040; /* Darker color when button is pressed */
 }
 
 .gameboy-button:hover {
-  background-color: #000000;
-  color: #c3c6c7;
-  border-color: #f0f0f0;
+    background-color: #000000;
+    color: #c3c6c7;
+    border-color: #f0f0f0;
 }
+
 #countdown {
-  font-size: 200% !important;
-  animation: pulse 1s infinite;
+    font-size: 400% !important;
+    animation: pulse 1s infinite;
 }
+
 #circle {
-  width: 100px;
-  height: 100px;
-  background: transparent;
-  border:5px white;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+    width: 150px; /* 100% of the viewport width */
+    height: 150px; /* 100% of the viewport height */
+    background: white;
+    border: 0.5vw solid white; /* Changed from 5px; */
+    border-radius: 50%;
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(1.05);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 1;
-  }
+    0% {
+        transform: scale(0.75);
+        opacity: 0.98;
+    }
+    70% {
+        transform: scale(1.05);
+        opacity: 0.85;
+    }
+    100% {
+        transform: scale(0.75);
+        opacity: 0.98;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 4vw; /* Increase font size for small screens */
+    }
+
+    .gameboy-button {
+        padding: 3vw 6vw; /* Increase button padding for small screens */
+        font-size: 3em; /* Increase font size for small screens */
+    }
+
+    .gameboy-text {
+        font-size: 250%; /* Increase font size for small screens */
+    }
 }
