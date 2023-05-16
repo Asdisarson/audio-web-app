@@ -54,7 +54,6 @@ body, html {
     margin-top: 15px;
     color: #ffffff;
     font-size: 200%; /* Increased font size */
-    animation: pulse 3s infinite;
 }
 
 .gameboy-button {
