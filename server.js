@@ -14,35 +14,29 @@ let selectableUsers = {};
 let group = 0;
 let admin = "";
 let test = false;
+let computer = "";
+let counter = 0;
 io.on('connection', (socket) => {
     socket.on('reset', () => {
         test = false;
-        admin = socket.id;
+        counter = 19;
         selectableUsers = {};
         io.emit('refresh');
     })
+    socket.on('setAdmin', () => {
+        admin = socket.id;
+        console.log("admin: " + admin);
+    })
     socket.on('mainAdmin', () => {
-        if (admin !== "") {
-            admin = socket.id;
-        }
         test = false;
         selectableUsers = {};
         io.emit('main');
     })
 
     socket.on('testAdmin', () => {
-        if (admin !== "") {
-            admin = socket.id;
-        }
         test = true;
         selectableUsers = {};
         io.emit('test');
-    })
-    socket.on('isAdmin', () => {
-        if (admin !== "") {
-            admin = socket.id;
-            console.log("Admin: " + admin);
-        }
     })
 
     console.log('A user connected: ' + socket.id);
@@ -62,31 +56,23 @@ io.on('connection', (socket) => {
     });
     let i = 0;
     socket.on('play', () => {
-        console.log('Playback started')
         let intervalId;
-        let counter = 0;
+         counter = 0;
         let playSongId;
         io.emit('playSongFull');
         function playSong() {
             if (13 > counter) {
 
-                if(test){
-                    console.log('Test started')
-                    socket.emit('playSong', 'full');
-                    clearInterval(playSongId);
-                }
-                else {
-                    console.log('Playback started')
-                    socket.emit('playSong', counter.toString());
+                    console.log('Playback started: ' + counter)
+                io.to(admin).emit('playSong', counter.toString());
                     counter++;
-                }
             } else {
                 clearInterval(playSongId);
             }
         }
 
         function selectRandomUser() {
-            if (counter >= 1 && counter !== 9) {
+            if (counter < 13 && counter !== 9) {
                 if (Object.keys(selectableUsers).length > 0) {
                     let socketIds = Object.keys(selectableUsers);
                     let randomSocketId = socketIds[Math.floor(Math.random() * socketIds.length)];
@@ -96,18 +82,29 @@ io.on('connection', (socket) => {
                     // Remove selected user so they can't be selected again
                     delete selectableUsers[randomSocketId];
                 }
-            } else {
+                else {
+                    // All users have been selected, so stop selecting
+                    clearInterval(intervalId);
+                }
+            }
+            else {
                 // All users have been selected, so stop selecting
                 clearInterval(intervalId);
             }
         }
-
-        // Select first user immediately
         selectRandomUser();
-        playSong();
-        // Schedule selection of next user every 15 seconds
-        intervalId = setInterval(selectRandomUser, 15000);
-        playSongId = setInterval(playSong, 30000);
+
+        intervalId = setInterval(selectRandomUser, 20000);
+        if(test){
+            console.log('Test started')
+            socket.emit('playSong', 'full');
+        }
+    else {
+            // Select first user immediately
+            playSong();
+            // Schedule selection of next user every 15 seconds
+            playSongId = setInterval(playSong, 30000);
+        }
     });
     socket.on('checkConnection', () => {
         socket.emit('connectionOK');
@@ -128,7 +125,7 @@ function getLocalIP() {
     return '127.0.0.1';
 }
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 const localIP = getLocalIP();
 
 server.listen(PORT, () => {

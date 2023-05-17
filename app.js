@@ -19,7 +19,6 @@ $(document).ready(function () {
             if (test === 'true') {
                 audioFileUrl = "./audio/test3.m4a"
             }
-            socket.emit('isAdmin');
         }
         // Get the URL parameters
 
@@ -32,19 +31,19 @@ $(document).ready(function () {
         const sound = new Howl({
             src: [audioFileUrl],
             sprite: {
-                0: [0, 31000],
-                1: [30000, 31000],
-                2: [60000, 31000],
-                3: [90000, 31000],
-                4: [120000, 31000],
-                5: [150000, 31000],
-                6: [180000, 31000],
-                7: [210000, 31000],
-                8: [240000, 31000],
-                9: [270000, 31000],
-                10: [300000, 31000],
-                11: [330000, 31000],
-                12: [360000, 31000],
+                0: [0, 30000],
+                1: [30000, 30000],
+                2: [60000, 30000],
+                3: [90000, 30000],
+                4: [120000, 30000],
+                5: [150000, 30000],
+                6: [180000, 30000],
+                7: [210000, 30000],
+                8: [240000, 30000],
+                9: [270000, 30000],
+                10: [300000, 30000],
+                11: [330000, 30000],
+                12: [360000, 30000],
                 full: [0, 390000]
             }
         });
@@ -74,9 +73,11 @@ $(document).ready(function () {
             (progress) => {
                 $('#progress').css('width', progress + '%');
                 if (progress === 100) {
-                    $('#downloadStatus').text('Download completed. Click Connect to start.');
-                    $('#preloader').fadeOut(500);
+                    $('#downloadStatus').text('Download completed');
+                    $('#preloader').fadeOut(2500);
                     $('#connect').fadeIn(1000);
+                    $('#areyoureadygif').fadeIn(1500);
+
                 }
             },
             (response) => {
@@ -90,6 +91,20 @@ $(document).ready(function () {
                 socket.emit('reset');
                 sound.stop();
                 $('#adminPlay').show();
+            });
+            $('#setAdmin').on('click',() => {
+                socket.emit('setAdmin');
+                socket.on('playSong', (data) => {
+
+                    sound.play(data);
+                })
+                socket.on('manipulate', (data) => {
+
+                    if (data) {
+                        sound.stereo(data.pan);
+                        sound.rate(data.rate);
+                    }
+                })
             });
             if (test === 'true') {
                 $('#test').hide();
@@ -109,18 +124,9 @@ $(document).ready(function () {
                 const noSleep = new NoSleep();
                 noSleep.enable();
                 socket.emit('play');
-                socket.on('playSong', (data) => {
 
-                    sound.play(data);
-                })
-                socket.on('manipulate', (data) => {
-
-                    if (data) {
-                        sound.stereo(data.pan);
-                        sound.rate(data.rate);
-                    }
-                })
             })
+
             setInterval(() => {
                 socket.emit('checkConnection');
             }, 5000);
@@ -130,12 +136,19 @@ $(document).ready(function () {
             })
             // Connect to the server and listen for the 'play' event
             $('#connect').on('click', () => {
+                $('#areyoureadygif').hide();
+                $('#nice').fadeIn(200);
+                // Hide after 5 seconds
+                setTimeout(function() {
+                    $('#nice').fadeOut(200);
+                }, 5000);
                 const noSleep = new NoSleep();
                 noSleep.enable();  // Enable wake lock
                 socket.emit('clientConnected');
 
                 socket.on('playSongFull', () => {
                     console.log();
+                    $('#connection').text('Mute = no sound')
                     sound.play('full');
                 });
                 $('#connect').hide();
@@ -147,7 +160,10 @@ $(document).ready(function () {
                     var countdownNumber = 5;
                     $('#countdown').text(countdownNumber);
                     $('#countdown').show();
-
+                    $('#selectedGif').show();
+                    setTimeout(function() {
+                        $('#nice').fadeOut(2000);
+                    }, 3000);
                     var countdownInterval = setInterval(function () {
                         countdownNumber--;
                         $('#countdown').text(countdownNumber);

@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SyncPhony</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncPhony</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 </head>
 <body>
 
-  <div class="container" >
+<div class="container">
     <div id="color">
-    <button id="red" value="0" class="gameboy-button" style="color:indianred;">Red</button>
-    <button id="blue" value="1" class="gameboy-button" style="color:lightskyblue;">Blue</button>
-    <button id="purple" value="2" class="gameboy-button" style="color:mediumpurple;">Purple</button>
-  </div>
-    <div id="preloader" style="display: none;">
-      <div id="progressBar" class="gameboy-border">
-        <div id="progress" class="gameboy-progress"></div>
-      </div>
-      <div id="downloadStatus" class="gameboy-text">Downloading...</div>
+        <button id="red" value="0" class="gameboy-button" style="color:indianred;">Red</button>
+        <button id="blue" value="1" class="gameboy-button" style="color:lightskyblue;">Blue</button>
+        <button id="purple" value="2" class="gameboy-button" style="color:mediumpurple;">Purple</button>
     </div>
-    <button id="connect" class="gameboy-button" style="display: none;">Connect</button>
-    <div id="connection" class="gameboy-text" style="display: none;">Connected</div>
-    <div id="countdown" class="gameboy-text" style="display: none;">5</div>
-    <div id="circle"  style="display: none; font-size:250%; text-align: center; color:Orange;">Hold & Move</div>
-  </div>
-  <div id="adminDashboard" style="display: none;">
-    <button id="adminPlay" class="gameboy-button" >Play</button>
-    <button id="main" class="gameboy-button" >Main</button>
-    <button id="test" class="gameboy-button" >Test</button>
-    <button id="reset" class="gameboy-button" >Reset</button>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://richtr.github.io/NoSleep.js/dist/NoSleep.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="app.js"></script>
+    <div id="preloader" style="display: none;">
+        <div id="progressBar" class="gameboy-border">
+            <div id="progress" class="gameboy-progress"></div>
+        </div>
+        <div id="downloadStatus" class="gameboy-text download-status">Downloading...</div>
+    </div>
+    <div id="areyoureadygif" style="display: none;"><img src="giphy.gif" alt="" /> </div>
+    <div id="nice" style="display: none;"><img src="giphy1.gif" alt="" /> </div>
+        <button id="connect" class="gameboy-button" style="display: none;">Connect</button>
+        <div id="connection" class="gameboy-text" style="display: none;">You are READY!</div>
+        <div id="selectedGif" style="display: none;" ><img src="./giphy2.gif" alt="" /></div>
+        <div id="countdown" class="gameboy-text" style="display: none;">5</div>
+        <div id="circle" style="display: none; font-size:250%; text-align: center; color:Orange;">Hold & Move</div>
+</div>
+<div id="adminDashboard" style="display: none;">
+    <button id="setAdmin" class="gameboy-button">Set Admin</button>
+    <button id="adminPlay" class="gameboy-button">Play</button>
+    <button id="main" class="gameboy-button">Main</button>
+    <button id="test" class="gameboy-button">Test</button>
+    <button id="reset" class="gameboy-button">Reset</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://richtr.github.io/NoSleep.js/dist/NoSleep.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

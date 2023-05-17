@@ -114,7 +114,9 @@ body, html {
     body {
         font-size: 4vw; /* Increase font size for small screens */
     }
-
+    .download-status {
+       font-size: 125% !important;
+    }
     .gameboy-button {
         padding: 3vw 6vw; /* Increase button padding for small screens */
         font-size: 3em; /* Increase font size for small screens */
