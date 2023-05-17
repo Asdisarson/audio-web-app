@@ -162,7 +162,7 @@ $(document).ready(function () {
                     $('#countdown').show();
                     $('#selectedGif').show();
                     setTimeout(function() {
-                        $('#nice').fadeOut(2000);
+                        $('#selectedGif').fadeOut(2000);
                     }, 3000);
                     var countdownInterval = setInterval(function () {
                         countdownNumber--;
